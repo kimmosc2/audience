@@ -11,3 +11,10 @@ func TcpCheck(url string)  {
         fmt.Println("tcp check error:",err)
     }
 }
+
+func TcpCheckSilent(url string)  {
+    _, err := net.Dial("tcp", url)
+    if err != nil {
+        fmt.Println("tcp check error:",err)
+    }
+}

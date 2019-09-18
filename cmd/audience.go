@@ -6,6 +6,7 @@ import (
 )
 
 func main() {
+	// TODO 重新设计架构
 	for k := range conf.Config.Server {
 		if conf.Config.LogMode {
 			go check.HttpCheck(conf.Config.Server[k])
