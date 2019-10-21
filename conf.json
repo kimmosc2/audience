@@ -1,0 +1,12 @@
+{
+  "httpServer": [
+    {
+      "http://localhost:8080": 5
+    },
+    {
+      "http://localhost:8081": 5
+    }
+  ],
+  "serverChanSCK": "SCU35019T42728360f870e35778e8602c9b963cc65bd7f9838d6d6",
+  "logOut": false
+}

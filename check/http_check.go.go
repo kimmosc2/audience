@@ -7,9 +7,9 @@ import (
     "time"
 )
 
-// checkSilent is a simple function for check, checkSilent
+// HttpCheckSilent is a simple function for check, HttpCheckSilent
 // no logs.
-func checkSilent(url string, t time.Duration) {
+func HttpCheckSilent(url string, t time.Duration) {
     for {
         if _, err := http.Get(url); err != nil {
             push.ServerChan(url)
@@ -21,7 +21,7 @@ func checkSilent(url string, t time.Duration) {
 // Default check function, if target server no response,
 // check will call ServerChan function to notice human.
 // check has log out.
-func check(url string, t time.Duration) {
+func HttpCheck(url string, t time.Duration) {
     for {
         if _, err := http.Get(url); err != nil {
             fmt.Println("request error:", err)
