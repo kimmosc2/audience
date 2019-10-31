@@ -1,34 +1,48 @@
 package check
 
 import (
-    "audience/push"
-    "fmt"
-    "net/http"
-    "time"
+	"audience/conf"
+	"audience/push"
+	"fmt"
+	"net/http"
+	"time"
 )
 
 // HttpCheckSilent is a simple function for check, HttpCheckSilent
 // no logs.
-func HttpCheckSilent(url string, t time.Duration) {
-    for {
-        if _, err := http.Get(url); err != nil {
-            push.ServerChan(url)
-        }
-        time.Sleep(t)
-    }
+func HttpCheckSilent(serverInfo conf.HttpServer) {
+	tolerance := 0
+	for {
+		if _, err := http.Get(serverInfo.Address); err != nil {
+			if tolerance >= serverInfo.Tolerance {
+				push.ServerChan(serverInfo.Address)
+				tolerance = 0
+				<-time.NewTimer(serverInfo.PushInterval).C
+			} else {
+				tolerance++
+			}
+		}
+		time.Sleep(serverInfo.CheckInterval)
+	}
 }
 
 // Default check function, if target server no response,
 // check will call ServerChan function to notice human.
 // check has log out.
-func HttpCheck(url string, t time.Duration) {
-    for {
-        if _, err := http.Get(url); err != nil {
-            fmt.Println("request error:", err)
-            push.ServerChan(url)
-        } else {
-            fmt.Printf("the %v check pass\n", url)
-        }
-        time.Sleep(t)
-    }
+func HttpCheck(serverInfo conf.HttpServer) {
+	tolerance := 0
+	for {
+		if _, err := http.Get(serverInfo.Address); err != nil {
+			fmt.Println("request error:", err)
+			if tolerance >= serverInfo.Tolerance {
+				push.ServerChan(serverInfo.Address)
+				tolerance = 0
+				<-time.NewTimer(serverInfo.PushInterval).C
+			} else {
+				tolerance++
+				fmt.Printf("the %v check pass\n", serverInfo.Address)
+			}
+		}
+		time.Sleep(serverInfo.CheckInterval)
+	}
 }

@@ -1,12 +1,20 @@
 {
   "httpServer": [
     {
-      "http://localhost:8080": 5
+      "address": "http://localhost:8081",
+      "checkInterval":5,
+      "tolerance":5,
+      "pushInterval":500
     },
     {
-      "http://localhost:8081": 5
+      "address": "http://localhost:8080",
+      "checkInterval":5,
+      "tolerance":5,
+      "pushInterval":500
     }
   ],
-  "serverChanSCK": "SCU35019T42728360f870e35778e8602c9b963cc65bd7f9838d6d6",
-  "logOut": false
+  "serverChanSCK": [
+    "SCU35019T42728360f870e35778e8602c9b963cc65bd7f9838d6d6"
+  ],
+  "logMode": false
 }
